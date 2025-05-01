@@ -39,7 +39,7 @@ async function getBestFolderAndVideo(
     usedVideos: Set<string>
 ): Promise<VideoSelection[] | null> {
     const allFolders = extractAllFolders(fileTree);
-    const flattened = flattenFileTree(fileTree, 'videos');
+    const flattened = flattenFileTree(fileTree, process.env.ROOT_DIR || "videos");
 
     const bestFolder = await selectBestFolderWithGemini(allFolders, text, keywords);
     if (!bestFolder) return null;
