@@ -1,5 +1,5 @@
 import fs from 'fs';
-import path, { join } from 'path';
+import { join } from 'path';
 import * as dotenv from "dotenv";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -25,8 +25,9 @@ function generateJsonFile(draffFilePath: string, jsonFilePath: string, folderRes
     const tracks = createTrackObject(folderResult, videos);
 
     jsonContent.tracks = tracks;
+    fs.writeFileSync('Output/tracks.json', JSON.stringify(tracks, null, 2));
 
-    jsonContent.duration = folderResult[folderResult.length - 1].end * 1000 * 1000;
+    jsonContent.duration = folderResult[folderResult.length - 1].end;
 
     // Write the JSON content to the specified file
     fs.writeFileSync(jsonFilePath, JSON.stringify(jsonContent, null, 2));
@@ -225,8 +226,8 @@ function createTrackObject(folderResult: FolderResult[], videos: Video[]): Track
             "speed": 1.0,
             "state": 0,
             "target_timerange": {
-                "duration": (result.end - result.start) * 1000 * 1000,
-                "start": result.start * 1000 * 1000,
+                "duration": (result.end - result.start),
+                "start": result.start,
             },
             "template_id": "",
             "template_scene": "default",
